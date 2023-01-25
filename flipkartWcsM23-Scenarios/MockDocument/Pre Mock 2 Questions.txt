@@ -1,0 +1,444 @@
+Generic Utilities:
+1. What is Generic Utility? How is it related with framework?
+  Ans:
+Generic utility is common for all our testScript
+it holds under src/main/java
+generic utility will be consists of generic classes and generic method
+whatever we provide methods will not be executed until we will call it in our testScript
+Generic utilitys used for mainly Code Reausability,
+This class contains all generic methods ,Automation Rule says that never hard code any data 
+everything will be generic method we will provide aruguments and then only it will execute 
+Example:Baseclass,propertyfile,excelfileUtility,listeners,WebDriverUtility
+If we didnot hard code method that will be generic method
+return type generic method will void if doesnot return any value
+return type generic method will be decided if its return any value
+
+
+
+2. Write any 2 methods From Excel Utility
+Ans:
+public void readDatafromExcel(String sheet,int rowNo,int cellNo)
+{
+
+FileInputStream fis=new FileInputStream("path of excel file");
+WorkBook Book=WorkBookFactory.create(fis);
+Sheet sh=Book.getSheet(sheet);
+String value=sh.createRow(rowNo).createCell(cellNo).getStringCellValue();
+return value;
+
+}
+public void readDatafromExcel(String sheet,int rowNo,int cellNO)
+{
+
+FileInputStream fis=new FileInputStream("path of excel file");
+WorkBook Book=WorkBookFactory.create(fis);
+Sheet sh=Book.createSheet(sheet);
+String ce=sh.createRow(rowNo).createCell(cellNo);
+   ce.setcellvalue(cellNo);
+FileOutputputStream fos=new FileOutputStream("path of excel file");
+wb.write(fos);
+return value;
+
+}
+
+
+
+3. write An 2 re-usable Methods to Handle drop down
+Ans:
+public void handleDrodown(WebElement element,int index)
+{
+Select sc=new Select(element);
+sc.selectByindex(index);
+}
+public void handleDrodown(WebElement element,String visibleText)
+{
+Select sc=new Select(element);
+sc.selectByvisibleText(visibleText);
+}
+
+
+
+4. write any 3 generic method to Handle Synchronization in your framework
+Ans:
+
+public void waitforpageload(webDriver driver)
+{
+driver.manage().timeouts().impliciltyWait(Duration.ofSeconds);
+}
+
+
+
+public void waitelementclickble(webDriver driver,webElement element)
+{
+webDriverWait wt=new webDriverWait(driver,Duration.ofSeconds(10));
+wt.until(ExpectedCondition.elementTobeclickble(element));
+}
+
+
+public void waitelementclickble(webDriver driver,webElement element)
+{
+webDriverWait wt=new webDriverWait(driver,Duration.ofSeconds(20));
+wt.until(ExpectedConditions.elementTobevisble(element));
+}
+
+
+
+
+5. write  any 3 generic methods from Web driver Utility
+Ans:
+public void maximize(webDriver driver)
+{
+driver.manage().window().maximize();
+}
+
+
+public void doubleClick(webDriver driver)
+{
+Actions act=new Actions(driver);
+act.doubleClick().perform();
+}
+
+public void rightClick(webDriver driver)
+{
+Actions act=new Actions(driver);
+act.contextClick().perform();
+}
+
+public void rightClick(webDriver driver,webElement element)
+{
+Actions act=new Actions(driver);
+act.contextClick(element).perform();
+}
+
+
+6. Explain the advantages of using generic utilty component
+Ans:
+Code reausability,no need do the same actions again and again 
+we can save time while deloping script ,so its one time investment
+No need to remember webActions
+we can easily call the classes in scripts 
+
+
+7. What are the classes and interfaces in generic utility.
+
+Ans:
+WebDriverUtility-class
+BaseClass-class
+ListenerImplemetationclass-class
+IRetryAnalyserClass-class
+ExcelfileUtility-class
+propertyfileUtility-class
+IconstantUtality-interface
+javaUtality-class
+
+
+
+
+
+
+Object Repository
+1. What is Object Repository? Why Object Repo?
+Ans:
+Object repository is well structred design by google,Automation rule says never hardcode the Elements in the Script
+here we can store all the webElements with help of Locators and no need to find again aga
+if UI changes also once if we make changes in Object repository it will easy for modification,so it will not distrub our testScript  
+
+
+2. Why POM classes are prefered for Object repository?
+Ans:
+Object repository is well strctred and google mostly prefeerred to develop pom classes
+we will find Elements with help of @FindBy,@FindAll,@FindBys 
+not with driver once after finding we will intializing the driver to the elements 
+Every time if page refreshed also Updated driver get intialized to so NosuchElememntRefecw we will not get
+
+
+3. What is POM and write all the rules of POM?
+Ans:
+POM Is page Object model its is well designed structred and preffred to use pom by google
+Create classs name with title of the webPage and ending with Page
+find the all the elements through  @FindBy,@FindAll,@FindBys 
+for every element make it with private accesModifier ,so we can access that particular classs itself
+create Constructor intialize driver with help of pagefactor and initselements() method
+we will not alter the elements so we cant do setters
+finally utiliztion override all the getter methods
+then we can use business library's as its convinet
+
+
+4. Difference between POM and PageFactory
+Ans:
+Pom is well structred design and we will use pom for storing webElemnts with help of @FindBy,@FindAll,@FindBys 
+PageFactory is used to intialize webDriver with help of initelemnts() so webElements will gets intialized with updated webDriver
+
+5. Difference between @findBy and driver.findElements()
+Ans:
+@findBy is used identify webElemnts present in the webpage initally driver is not required later its gets intilized with help updated driver,
+so if page got refreshed also it will still identify the webelemnts
+
+driver.findElements() is used identify webElemnts present in the webpage it will required driver intially ,
+so if page got refreshed  it will not identify  the webelemnts,elements got Stale it will not identify those elements
+
+
+
+6. Explain @FindBy, @FindAll, @FindBys
+Ans:
+@FindBy, @FindAll, @FindBys
+ is used identify webElemnts present in the webpage initally driver is not required later its gets intilized with help updated driver,
+so if page got refreshed also it will still identify the webelemnts
+@FindBy
+with help this we can find with help of one locator finds one WebElement for same element
+ @FindAll
+we can find more than webelement for same element more than one locator also 
+it will work like both elements correct then it will find other wise it will not identified
+@FindBys
+we can find more than webelement for same element more than one locator also 
+it will work like if anyone  element is  correct then it will identify it work like OR Oprator
+
+
+7. Develop POM Class for a login Page
+Ans:
+public class loginPage
+{
+//Declaration
+@FindBy(name="user_name")
+private WebElmenet userNameEdt;
+@FindBy(name="user_password")
+private WebElmenet passwordEdt;
+@FindBy(id="submitButton");
+private WebElement LoginButton;
+
+//intialization
+public loginPage(WebDriver driver)
+{
+PageFactory.initElements(driver,this);
+}
+
+//Utilization
+public WebElement getusername()
+{
+return userNameEdt;
+}
+public WebElement getusername()
+{
+return passwordEdt;
+}
+public WebElement getusername()
+{
+return LoginButton; 
+}
+//Businees Libraries
+public void loginApp(String username,String password )
+{
+userNameEdt.sendkeys(username);
+passwordEdt.sendkeys(password);
+LoginButton.click();
+}
+
+}
+
+
+8. What is StaleElementReference Exception? How POM will handle it
+Ans:
+if webPage is got refreshed or if internet issue is at that time driver is unable to find webElement so we will get StaleElementReference 
+POM will handle  StaleElementReference Exception here we will find webelements with help of @FindBy, @FindAll, @FindBys
+So if page is also got refreshed the updated driver will gets intialized and it will identifyed  the webelements so will not get StaleElementReference Exception 
+
+
+9. What is Auto healing?
+Ans:
+with help of @FindAll if we identify webElements if any one not idetifying also one is working fine also it will find webElements this proces is called AutoHealing
+Automatically it will move from one element to other element it will work like as OR OPrator
+
+
+
+Scenario based
+1. Agile process demands frequent UI changes, How do u handle this situation
+Ans:
+
+Agile process demands frequent UI changes, we will implemnets POM Classes in our Framework so if frequently UI Changes also our TestScript will never distrub,
+if we make changes  WebElements in the POM Classes our testScript will remaing same ,maintance aND MODIfication going to easy 
+
+2. Session Id for a page keeps on Changing when ever the page is refreshed, How do hanlde
+   This situation
+Ans:
+if webPage is got refreshed or if internet issue is at that time driver is unable to find webElement so we will get StaleElementReference 
+POM will handle  StaleElementReference Exception here we will find webelements with help of @FindBy, @FindAll, @FindBys
+So if page is also got refreshed the updated driver will gets intialized and it will identifyed  the webelements so will not get StaleElementReference Exception 
+
+
+
+3. One of web pages consists of 5 drop downs, How do handle it
+Ans:
+we will create pom class for that webPage and we will identify all the eleemnts and seleect actions and we will call it in our testScript
+
+
+4. How do u handle synchronization in Selenium.
+Ans:
+IMpliciltywait
+ExplicitlyWait
+FluentWait
+
+5. What are the total number of pom classes present in your framework.
+Ans:
+No of WebPages = no of Pom classes
+EXample:for application 15 web pages are present
+webpages 15=pom classes also 15
+
+
+Questions - MAVEN:
+1. What is Maven explain Advantages? 
+Ans:
+Here Pom.xml file is present simply we can add the Dependncys if Version also want update no need to remove just if we change version no
+we can build our frame works eaisly
+we will get inbuild Reports 
+NO need to download jars again and again
+We can execute our test script outside of the Eclipse
+
+
+2. Explain Maven Folder Structure
+Ans:
+src/main/java-we can store generic utilits and objectReposiotorys
+src/mainResources-
+src/test/java-we can build our test scripts as our convenient 
+src/testResources-we can store our extrnalfiles like properyfile,excel sheet files
+src/testOutputs-we wil have pomxml file and reports
+src/extentReports-extent reports
+
+
+
+3. Explain the dependencies feature in Maven
+Ans:
+dependencie is advance feature in maven with help of dependencie it will download automatically jars form globalRepository
+
+4. Explain Build life Cycle
+Ans:
+once after devopers developed the source code they will compress and compile the source code make the build 
+after it will install in testing server for testing ,for multiple test cycle testing going to happan if build is stable it will install uat serveer there 
+it will check all the scenarios and finally installed in production server
+
+5. What are the different maven commands
+Ans:
+mvn clear
+mvn validate
+mvn compile
+mvn test
+mvn -Dtest=classname test
+mvn -Dtest=class1Nmae,class2Name test
+mvn -Dtest=className#methodName test
+mvn -P profileId
+mvn -Pusername=username test
+
+6. What happends if we execute mvn test
+
+Ans:if we execute mvn test it will execute only the testScripts whose name ended with test
+
+7. Write maven command to provide username and password through cmd line
+Ans:mvn -Dusername=admin -Dpassword=manager -Durl=testen.com test
+
+
+8. Write maven command to execute only one test class through cmd Line
+Ans:mvn -Dtest=classname test
+
+9. Write maven command to execute only one test method inside a test class through cmd Line
+Ans:mvn -Dtest=className#methodName test
+
+10. How do you execute suite xml file through cmd line?
+Ans:mvn -P profileId
+we will create .xml file for particular class and that suite file we will going give in pom.xml file then we have create profile ,there we will give id 
+that name will through command (mvn -P profileId)
+
+11. I have 5 different suite xml files for 5 different execution, i want to decide which 
+    suite file to be executed during runtime, what is your approach.
+Ans:
+i will create profiles for 5 .xml files sepearatly ,in profile i given id ,with help of this i will going to use command at runtime (mvn -P profileId)
+
+12. how do you read data from cmd Line?
+Ans:
+i will create .xml file for class and i will create profile for that .xml file and i will give command in command line  
+13. What are Maven parameters?
+Ans:
+to pass any data through command line when get situation we can pass the values 
+14. What is Maven Profiling?
+Ans:
+its plugin in pom.xml with help of this we can execute suite xmlfiles at run time though command line also we can execute
+
+Questions - GIT:
+1. Why github?
+Ans:
+to store frameworks of  automationengineers
+to store Source use of developers
+to store manual testcases and CRS doucments 
+it is Global repository there we can push our code and we can import at any time and if team want work github is main thing
+
+2. What are different git commands
+Ans:
+commit
+push
+pull
+import
+clone
+git
+merge
+fork
+rebash
+3. What is branching in github
+Ans:
+without pushing directly from local repo to master repo we will push our code into Branching and there it will merge who has autorites 
+if we use branching we never get confilcts becoz for one repo one owner present, we can just push the code to branch nopt repo so we will not get confilcts
+
+4.What is difference between git and github?
+Ans:
+git is locally created local file from working directory
+But gibHUb is Global repo if we commit and push it will copy from working directory to giTHub
+  
+5. What is pull request?
+Ans:
+After creating branch need to give intimation for  owner of the GitHub we will creating pull request in github   
+
+6. What is difference between merge and rebase?
+Ans:
+merge will help to  merge individual branch 
+rebase will help to merge no of branches we can merge at a time
+
+7. can v pull without import?
+Ans:no we cant pull 
+8. can v push without commit?
+Ans:No we cant push without commit
+9. Explain github architecture
+
+
+
+Task Statement:  
+Write a selenium script to search the product and add to the cart on Flipkart.com
+
+Steps:
+1. Navigate to flipkart.com 
+2. search for "winter heater" 
+3. Select the first product in the search results and click
+4. Product page will be displyed
+5. Click on Add to cart button
+6. Verify the product in cart page
+
+
+Task Statement:
+Write a selenium script to capture all the redmi phones whose ram is 4GB
+
+Steps:
+1. Navigate to Flipkart.com
+2. Search for "redMi"
+3. Capture all the phones in the current page whose RAM is 4GB - xpath
+4. Print in console.
+
+
+Github:- AccountName/FlipkartScenario.git -> push
+
+
+
+
+
+
+
+
+
+
+
+
